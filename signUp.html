@@ -255,7 +255,12 @@
           },//提交的数据
           dataType: "json",//返回的数据类型格式
           success: function(result){
-                window.location.href="userCenter.html";
+            if(result.code==100){
+              window.location.href="userCenter.html";
+            }
+            else{
+              $("#tip").text(result.extend.tip);
+            } 
           }
       });
     }

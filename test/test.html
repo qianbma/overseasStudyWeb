@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="test.js"></script>
+</head>
+<body>
+	<div id="test">
+		<button>hello</button>
+	</div>
+	
+	<button onclick="test1()">测试1</button>
+	<button onclick="test2()">测试2</button>
+	<button onclick="test3()">测试3</button>
+	<button onclick="test4()">测试3</button>
+	<script>
+		//json数据格式{"uname":"这里随便放点数据"}
+		function test1(){
+			$.ajax({
+	          type: "get",
+	          url: "uname.json",
+	          async: true,
+	          success: function(msg){
+	              if (msg.code==100){
+	                var msg=eval("(" + msg + ")");
+	                alert(msg.name);
+	              }
+	          }
+	        });
+		}
+
+		function test2(){
+			$.ajax({
+	          type: "get",
+	          url: "uname.json",
+	          async: true,
+	          success: function(msg){
+	              if (msg.code==100){
+	                alert(msg.name);
+	              }
+	          }
+	        });
+		}
+		function test4(){
+			var p=$("#test button").clone();
+			$("#test").empty().append(p);
+			p=$("#test button:first").clone();
+			$("#test").append(p);
+
+		}
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <title>评估</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="static/js/1.js"></script>
+    <link rel="stylesheet" href="static/css/mystyle.css">
+  </head>
+  <body>
+    <script src="static/js/header.js"></script>
+    <div class="container" style="margin-top: 15px">
+      <div style="margin-bottom: 15px" class="location_tip">
+          <span class="glyphicon glyphicon-map-marker" style="color: #777777"></span>
+          <span style="color: #777777">您所在的位置：</span>
+          <a href="index.html">留学信息网</a>
+          &gt;
+          <a href="javascript:void(0);" onclick="location.href='searchSchoolResult.html?country='+$(this).text()" class="scountry">国家名</a>
+          &gt;
+          <span class="sname">大学名</span>
+
+      </div>
+    </div>
+    <div style="background:#fff url(http://img.lcwcdn.com/u/51images/xiangqingbg2.jpg) no-repeat left top;background-size:110%">
+      <div class="container" style="color: #ffffff">
+        <br>
+        <div class="row">
+          <div class="col-sm-3">
+            <img src="http://img.51liucheng.com/u/school/logo/202.jpg" class="img-rounded img-responsive">
+          </div>
+          <div class="col-sm-8 col-offset-sm-1">
+            <p class="sname" style="color:#436eee;font-size:30px">大学名</p>
+            <div class="row">
+              <div class="col-sm-6">
+                <p>学校官网：<a href="javascript:void(0);" onclick="location.href=$(this).text()" class="swebsite">www.123.com</a></p>
+                <p>学校性质: <span class="snature">snature</span></p>
+                <p>区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域: <span class="sregion">sregion</span></p>
+                <p>建校时间: <span class="sfoundingyear">sfoundingyear</span></p>
+              </div>
+              <div class="col-sm-6">
+                <p>国&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家: <span class="scountry">scountry</span></p>
+                <p>城&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市: <span class="scity">city</span></p>
+                <p>在校学生: <span class="sstudentnum">xx</span>人</p>
+                <p>主要院系: <span class="smaindepartment">主要院系</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+    <br>
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            学校详情
+          </h3>
+        </div>
+        <div class="panel-body" id="sdetail">
+          <p>澳大利亚国立大学由二战后最著名的澳大利亚籍科学家群提议，经澳大利亚联邦议会立法特批，学校于1946年由澳大利亚政府在首都堪培拉的市中心建立。校园占地226公顷，四周被国家自然保护区、格里芬湖和市中心区环抱。该校连续数年在澳洲大学排名榜上夺魁。它的光学研究中心，凭借着光纤通讯方面的研究成果，曾荣获马科尼国际奖；雷达与核物理的领头人奥利芬、青霉素发现者之一的弗洛里、杰出的历史学家汉考克、经济学家库姆斯，以及新一代众多知名学者让它熠熠生辉。
+          </p>
+          <p>1960年和1992年，澳大利亚国立大学先后与堪培拉学院，及堪培拉艺术学院合并，使大学的课程及教学得到增加。澳大利亚国立大学还是澳大利亚唯一的联邦政府大学，它拥有全澳最优良的师资力量，78%的教师拥有博士头衔，远远高于澳洲的大学平均50%的比例。学校现有10000名在校学生，其中海外留学生有1000多名。</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="static/js/footer.js"></script>
+  </body>
+  <script>
+    $(function(){
+      $("#nav_school").addClass("active");
+
+      //处理url参数
+      var sname=getQueryString("name");
+        $(".sname").text(sname);
+    });
+    $(function(){
+      $.ajax({
+        type:"post",
+        url:"school_detail",
+        data:{
+          "sname":getQueryString("name"),
+        },
+        datatype:"json",
+        success:function(result){
+          var school=result.extend.school;  //只有一个school对象
+          $(".swebsite").text(school.sname);
+          $(".snature").text(school.snature);
+          $(".sregion").text(school.sregion);
+          $(".scountry").text(school.scountry);
+          $(".scity").text(school.scity);
+          $(".sstudentnum").text(school.sstudentnum);
+          $(".smaindepartment").text(school.sstudentnum);
+          $("#sdetail").empty();
+          $.each(school.detail,function(index,item){ //返回数据中学校的sdetail应是List<String>,每个元素是一个自然段
+            var p=$("<p></p>").append(item);
+            $("#sdetail").append(p);
+          });
+        }
+      });
+    });
+  </script>
+</html>
